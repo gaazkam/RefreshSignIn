@@ -1,0 +1,26 @@
+﻿@page
+@model RefreshSignInNotWorking.Pages.BanModel
+@{
+    ViewData["Title"] = "Ban";
+}
+@using Microsoft.EntityFrameworkCore;
+@inject UserManager<IdentityUser> UserManager
+
+<h2>@ViewData["Title"]</h2>
+
+@if (Model.Message == null)
+{
+    <form method="post">
+        <select name="usernameToBan">
+            @foreach (string username in await UserManager.Users.Select(u => u.UserName).ToListAsync())
+            {
+                <option value="@username">@username</option>
+            }
+        </select>
+        <button type="submit">Ban</button>
+    </form>
+}
+else
+{
+    @Model.Message
+}
